@@ -14,7 +14,8 @@ public class ErrorResponse {
     private String requestId;
 
     public ErrorResponse() {
-        this.requestId = UUID.randomUUID().toString();
+        String mdcId = org.slf4j.MDC.get("requestId");
+        this.requestId = (mdcId != null && !mdcId.isBlank()) ? mdcId : UUID.randomUUID().toString();
     }
 
     public ErrorResponse(String code, String message) {

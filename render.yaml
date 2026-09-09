@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: maid-manager-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: starter
+    region: singapore # Low latency for Asia/Kolkata
+    autoDeploy: true
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: PORT
+        value: 8080
+      - key: DATABASE_URL
+        sync: false # Set via Render dashboard pointing to Neon PostgreSQL with sslmode=require
+      - key: DATABASE_USERNAME
+        sync: false # Neon DB username
+      - key: DATABASE_PASSWORD
+        sync: false # Neon DB password
+      - key: JWT_ACCESS_SECRET
+        generateValue: true # Secure generated 256-bit token
+      - key: JWT_REFRESH_SECRET
+        generateValue: true # Secure generated 256-bit token
+      - key: JWT_ACCESS_TTL
+        value: 900
+      - key: JWT_REFRESH_TTL
+        value: 2592000
+      - key: APP_DEFAULT_TIMEZONE
+        value: Asia/Kolkata
+      - key: APP_DEFAULT_CURRENCY
+        value: INR
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://*,exp://*,http://localhost:8081"

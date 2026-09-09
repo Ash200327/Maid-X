@@ -31,4 +31,16 @@ public interface PayrollRunRepository extends JpaRepository<PayrollRun, UUID> {
     List<PayrollRun> findAllByOwnerIdAndMonthAndStatus(@Param("ownerId") UUID ownerId,
                                                        @Param("payrollMonth") LocalDate payrollMonth,
                                                        @Param("status") PayrollStatus status);
+
+    @Query("SELECT p FROM PayrollRun p WHERE p.owner.id = :ownerId ORDER BY p.payrollMonth DESC, p.maid.name ASC")
+    List<PayrollRun> findAllByOwnerId(@Param("ownerId") UUID ownerId);
+
+    @Query("SELECT p FROM PayrollRun p WHERE p.owner.id = :ownerId AND p.maid.id = :maidId ORDER BY p.payrollMonth DESC")
+    List<PayrollRun> findAllByOwnerIdAndMaidId(@Param("ownerId") UUID ownerId,
+                                                @Param("maidId") UUID maidId);
+
+    @Query("SELECT p FROM PayrollRun p WHERE p.owner.id = :ownerId AND p.maid.id = :maidId AND p.payrollMonth = :payrollMonth")
+    List<PayrollRun> findAllByOwnerIdAndMaidIdAndMonth(@Param("ownerId") UUID ownerId,
+                                                        @Param("maidId") UUID maidId,
+                                                        @Param("payrollMonth") LocalDate payrollMonth);
 }

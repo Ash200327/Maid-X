@@ -25,6 +25,7 @@ public class PayrollAdjustment {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "payroll_run_id", nullable = false)
     private PayrollRun payrollRun;
@@ -119,5 +120,18 @@ public class PayrollAdjustment {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PayrollAdjustment that = (PayrollAdjustment) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

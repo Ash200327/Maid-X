@@ -62,7 +62,7 @@ public class PayrollRun extends BaseAuditableEntity {
     @Column(name = "payment_note", columnDefinition = "TEXT")
     private String paymentNote;
 
-    @OneToMany(mappedBy = "payrollRun", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "payrollRun", fetch = FetchType.LAZY)
     private List<PayrollAdjustment> adjustments = new ArrayList<>();
 
     @OneToOne(mappedBy = "payrollRun", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
